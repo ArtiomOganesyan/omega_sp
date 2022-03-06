@@ -36,10 +36,11 @@ router.get(p.get, (_: Request, res: Response) => {
  * Add one user.
  */
 router.post(p.add, (req: Request, res: Response) => {
-  const { user }: { user: IUser } = req.body;
+  const { user }: { user: Partial<IUser> } = req.body;
   if (!user) {
     throw new ParamMissingError();
   }
+  user.name = createUserName();
   // Fetch data
   userService.addOne(user).then(() => res.status(CREATED).end());
 });
